@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import { Search, SlidersHorizontal, ArrowUpDown, X } from 'lucide-react';
+import { Search, SlidersHorizontal, ArrowUpDown, X, PackageSearch } from 'lucide-react';
 import { formatCurrency, mapProductCategory, mapNgoCategory } from '../../utils/helpers';
 import styles from './Products.module.css';
 
@@ -276,7 +276,7 @@ export default function Products() {
           {/* Grid de Cartões de Produtos */}
           {filteredProducts.length === 0 ? (
             <div className={styles.noProducts}>
-              <div className={styles.noProductsIcon}>🔍</div>
+              <div className={styles.noProductsIcon}><PackageSearch size={44} /></div>
               <h3>Nenhum produto encontrado</h3>
               <p>Tente alterar seus termos de pesquisa ou remover alguns dos filtros selecionados.</p>
               <button onClick={handleClearFilters} className={styles.btnResetSearch}>

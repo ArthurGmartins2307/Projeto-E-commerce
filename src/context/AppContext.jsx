@@ -115,7 +115,8 @@ export const AppProvider = ({ children }) => {
       showToast('Cadastro realizado com sucesso!', 'success');
       return user;
     } catch (error) {
-      showToast(error.message || 'Erro ao efetuar cadastro.', 'error');
+      const message = error.message || 'Erro ao efetuar cadastro.';
+      showToast(message, message.startsWith('Cadastro criado.') ? 'info' : 'error');
       throw error;
     } finally {
       setGlobalLoading(false);

@@ -2,6 +2,7 @@
 -- Você pode executar este script diretamente no SQL Editor do Supabase.
 
 -- Habilitar extensões necessárias se preciso
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- 1. TABELA DE USUÁRIOS
@@ -15,6 +16,68 @@ CREATE TABLE IF NOT EXISTS users (
     supported_ngos INTEGER DEFAULT 0,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
+
+-- Cria/atualiza automaticamente o perfil publico quando uma conta nasce no Supabase Auth.
+-- Isso evita falhas no cadastro quando a confirmacao de e-mail ou RLS estao ativos.
+CREATE OR REPLACE FUNCTION public.handle_new_auth_user()
+RETURNS trigger AS $$
+BEGIN
+    INSERT INTO public.users (
+        id,
+        name,
+        email,
+        profile_image,
+        user_type,
+        points,
+        supported_ngos
+    )
+    VALUES (
+        NEW.id,
+        COALESCE(NEW.raw_user_meta_data->>'name', split_part(NEW.email, '@', 1)),
+        NEW.email,
+        COALESCE(
+            NEW.raw_user_meta_data->>'profile_image',
+            'https://api.dicebear.com/7.x/bottts/svg?seed=' || NEW.id::text
+        ),
+        COALESCE(NEW.raw_user_meta_data->>'user_type', 'customer'),
+        0,
+        0
+    )
+    ON CONFLICT (id) DO UPDATE SET
+        name = EXCLUDED.name,
+        email = EXCLUDED.email,
+        profile_image = EXCLUDED.profile_image,
+        user_type = EXCLUDED.user_type;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
+
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+AFTER INSERT ON auth.users
+FOR EACH ROW EXECUTE FUNCTION public.handle_new_auth_user();
+
+ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Authenticated users can read profiles" ON users;
+CREATE POLICY "Authenticated users can read profiles"
+ON users FOR SELECT
+TO authenticated
+USING (true);
+
+DROP POLICY IF EXISTS "Users can insert own profile" ON users;
+CREATE POLICY "Users can insert own profile"
+ON users FOR INSERT
+TO authenticated
+WITH CHECK (auth.uid() = id);
+
+DROP POLICY IF EXISTS "Users can update own profile" ON users;
+CREATE POLICY "Users can update own profile"
+ON users FOR UPDATE
+TO authenticated
+USING (auth.uid() = id)
+WITH CHECK (auth.uid() = id);
 
 -- 2. TABELA DE ONGS
 CREATE TABLE IF NOT EXISTS ngos (

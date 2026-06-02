@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
-import { Mail, Phone, Heart, Award, Shield, ArrowUp } from 'lucide-react';
+import { Mail, Phone, Heart, Shield, ArrowUp, MessageCircle } from 'lucide-react';
 import { formatCurrency } from '../../utils/helpers';
 import styles from './Footer.module.css';
 
@@ -77,7 +77,7 @@ export default function Footer() {
               <span>(11) 3254-9988</span>
             </li>
             <li>
-              <span className={styles.wpIcon}>💬</span>
+              <MessageCircle size={14} className={styles.wpIcon} />
               <a href="https://wa.me/5511987654321" target="_blank" rel="noopener noreferrer">WhatsApp: (11) 98765-4321</a>
             </li>
           </ul>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
-import { X, Trash2, Heart, ShieldCheck, CreditCard, DollarSign, FileText } from 'lucide-react';
+import { X, Trash2, Heart, ShieldCheck, CreditCard, DollarSign, FileText, ShoppingCart } from 'lucide-react';
 import { formatCurrency } from '../../utils/helpers';
 import styles from './CartDrawer.module.css';
 
@@ -125,7 +125,7 @@ export default function CartDrawer() {
         <div className={styles.body}>
           {cart.length === 0 ? (
             <div className={styles.emptyContainer}>
-              <div className={styles.emptyIcon}>🛒</div>
+              <div className={styles.emptyIcon}><ShoppingCart size={40} /></div>
               <h3>Carrinho vazio</h3>
               <p>Sua sacola está vazia. Que tal apoiar uma causa hoje mesmo comprando um de nossos produtos?</p>
               <button 

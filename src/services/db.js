@@ -84,6 +84,14 @@ const formatSupabaseAuthError = (error) => {
   const message = (error.message || '').toLowerCase();
   const code = error.code || '';
 
+  if (code === 'invalid_credentials' || message.includes('invalid login credentials')) {
+    return new Error('E-mail ou senha incorretos, ou esta conta ainda nÃ£o existe no Auth do Supabase.');
+  }
+
+  if (code === 'email_not_confirmed' || message.includes('email not confirmed')) {
+    return new Error('Esta conta existe, mas ainda esta marcada como nao confirmada no Supabase. Confirme o usuario no painel Auth ou rode o SQL de confirmacao.');
+  }
+
   if (code === 'email_exists' || message.includes('already registered') || message.includes('already exists')) {
     return new Error('Este e-mail já está cadastrado. Tente fazer login ou use outro e-mail.');
   }
@@ -103,6 +111,17 @@ const formatSupabaseAuthError = (error) => {
   return new Error(error.message || 'Erro ao autenticar no Supabase.');
 };
 
+const buildProfileFromAuthUser = (user, fallback = {}) => ({
+  id: user.id,
+  name: fallback.name || user.user_metadata?.name || fallback.email || user.email,
+  email: fallback.email || user.email,
+  profile_image: fallback.profile_image || user.user_metadata?.profile_image || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(fallback.name || user.email || user.id)}`,
+  user_type: fallback.user_type || user.user_metadata?.user_type || 'customer',
+  points: fallback.points || 0,
+  supported_ngos: fallback.supported_ngos || 0,
+  created_at: user.created_at || new Date().toISOString()
+});
+
 // ============================================
 // 1. SISTEMA DE AUTENTICAÇÃO E USUÁRIOS
 // ============================================
@@ -112,17 +131,30 @@ export const dbAuth = {
   async login(email, password) {
     if (isSupabaseConfigured) {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) throw error;
+      if (error) throw formatSupabaseAuthError(error);
       
       // Busca dados estendidos da tabela de users
       const { data: profile, error: pError } = await supabase
         .from('users')
         .select('*')
         .eq('id', data.user.id)
-        .single();
+        .maybeSingle();
       
-      if (pError) throw pError;
-      return profile;
+      if (pError) throw new Error(pError.message || 'Erro ao buscar perfil do usuÃ¡rio.');
+      if (profile) return profile;
+
+      const profileData = buildProfileFromAuthUser(data.user, { email });
+      const { data: createdProfile, error: createProfileError } = await supabase
+        .from('users')
+        .upsert(profileData, { onConflict: 'id' })
+        .select()
+        .single();
+
+      if (createProfileError) {
+        throw new Error('Login autenticado, mas o perfil nÃ£o foi encontrado/criado na tabela users. Rode o schema atualizado no Supabase e confira as policies de RLS.');
+      }
+
+      return createdProfile;
     } else {
       // Offline/Local
       const users = getMockData(LS_KEYS.USERS);
@@ -138,27 +170,53 @@ export const dbAuth = {
   // Cadastro de usuário
   async register(name, email, password, profileImage = '', userType = 'customer') {
     if (isSupabaseConfigured) {
-      const { data, error } = await supabase.auth.signUp({ email, password });
+      const profileImageUrl = profileImage || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(name)}`;
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            name,
+            profile_image: profileImageUrl,
+            user_type: userType
+          }
+        }
+      });
       if (error) {
         throw formatSupabaseAuthError(error);
       }
+
+      if (!data.user) {
+        throw new Error('Cadastro criado, mas o Supabase nÃ£o retornou o usuÃ¡rio. Tente fazer login ou confirme seu e-mail.');
+      }
+
+      let activeUser = data.user;
+
+      if (!data.session) {
+        const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({ email, password });
+        if (loginError) {
+          throw formatSupabaseAuthError(loginError);
+        }
+        activeUser = loginData.user;
+      }
       
       // Cria registro na tabela users correspondente
+      const profileData = buildProfileFromAuthUser(activeUser, {
+        name,
+        email,
+        profile_image: profileImageUrl,
+        user_type: userType
+      });
+
       const { data: profile, error: pError } = await supabase
         .from('users')
-        .insert({
-          id: data.user.id,
-          name,
-          email,
-          profile_image: profileImage || `https://api.dicebear.com/7.x/bottts/svg?seed=${name}`,
-          user_type: userType,
-          points: 0,
-          supported_ngos: 0
-        })
+        .upsert(profileData, { onConflict: 'id' })
         .select()
         .single();
       
-      if (pError) throw pError;
+      if (pError) {
+        throw new Error('Conta criada no Auth, mas o perfil nÃ£o foi salvo na tabela users. Rode o schema atualizado no Supabase e confira as policies de RLS.');
+      }
       return profile;
     } else {
       // Offline/Local
@@ -791,7 +849,7 @@ export const dbReports = {
         data: categoryData.some(v => v > 0) ? categoryData : [450, 380, 220, 190, 150, 94, 60]
       },
       ratings: {
-        labels: ["1 ★", "2 ★", "3 ★", "4 ★", "5 ★"],
+        labels: ["1 estrela", "2 estrelas", "3 estrelas", "4 estrelas", "5 estrelas"],
         data: [ratingsCount[1], ratingsCount[2], ratingsCount[3], ratingsCount[4], ratingsCount[5]]
       }
     };

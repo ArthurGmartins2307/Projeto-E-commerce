@@ -280,7 +280,7 @@ export default function Profile() {
                     </p>
                   ) : (
                     <p className={styles.nextLevelLabel}>
-                      🎉 Parabéns! Você atingiu o <strong>Nível Máximo</strong> de solidariedade!
+                      Parabéns! Você atingiu o <strong>Nível Máximo</strong> de solidariedade!
                     </p>
                   )}
                 </div>
@@ -318,7 +318,7 @@ export default function Profile() {
                         <h4>{badge.name}</h4>
                         <p>{badge.description}</p>
                         <span className={styles.badgeStatus}>
-                          {isUnlocked ? '✓ Desbloqueada' : '🔒 Bloqueada'}
+                          {isUnlocked ? 'Desbloqueada' : 'Bloqueada'}
                         </span>
                       </div>
                     );

@@ -389,11 +389,11 @@ export const CONTRIB_LEVELS = [
 ];
 
 export const ACHIEVEMENTS = [
-  { id: "badge-first", name: "Primeiro Impacto", description: "Realizou a primeira compra e gerou doação.", icon: "🌱" },
-  { id: "badge-animal", name: "Amigo dos Animais", description: "Apoiou a causa Animal com mais de 3 produtos comprados.", icon: "🐾" },
-  { id: "badge-nature", name: "Protetor do Bioma", description: "Comprou produtos que apoiam a causa do Meio Ambiente.", icon: "🌳" },
-  { id: "badge-social", name: "Coração Solidário", description: "Apoiou causas de desenvolvimento e inserção social.", icon: "❤️" },
-  { id: "badge-education", name: "Mestre do Saber", description: "Ajudou a causa de Educação infantil.", icon: "📚" },
-  { id: "badge-health", name: "Doador de Sorrisos", description: "Gerou fundos para campanhas preventivas de saúde.", icon: "✨" },
-  { id: "badge-heavy", name: "Super Doador", description: "Acumulou mais de 500 pontos em doações na plataforma.", icon: "🏆" }
+  { id: "badge-first", name: "Primeiro Impacto", description: "Realizou a primeira compra e gerou doação.", icon: "01" },
+  { id: "badge-animal", name: "Amigo dos Animais", description: "Apoiou a causa Animal com mais de 3 produtos comprados.", icon: "02" },
+  { id: "badge-nature", name: "Protetor do Bioma", description: "Comprou produtos que apoiam a causa do Meio Ambiente.", icon: "03" },
+  { id: "badge-social", name: "Coração Solidário", description: "Apoiou causas de desenvolvimento e inserção social.", icon: "04" },
+  { id: "badge-education", name: "Mestre do Saber", description: "Ajudou a causa de Educação infantil.", icon: "05" },
+  { id: "badge-health", name: "Doador de Sorrisos", description: "Gerou fundos para campanhas preventivas de saúde.", icon: "06" },
+  { id: "badge-heavy", name: "Super Doador", description: "Acumulou mais de 500 pontos em doações na plataforma.", icon: "07" }
 ];

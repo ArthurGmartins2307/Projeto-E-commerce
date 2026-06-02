@@ -37,7 +37,9 @@ import {
   Sparkles,
   TrendingUp,
   Boxes,
-  Users
+  Users,
+  Star,
+  X
 } from 'lucide-react';
 import styles from './Admin.module.css';
 
@@ -712,7 +714,7 @@ export default function Admin() {
                       key={i} 
                       className={`${styles.star} ${i < rev.rating ? styles.starFilled : styles.starEmpty}`}
                     >
-                      ★
+                      <Star size={14} fill={i < rev.rating ? 'currentColor' : 'none'} />
                     </span>
                   ))}
                 </div>
@@ -781,7 +783,9 @@ export default function Admin() {
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalHeader}>
               <h3>{selectedNgo ? 'Editar ONG' : 'Adicionar Nova ONG'}</h3>
-              <button onClick={() => setNgoModalOpen(false)} className={styles.closeModalBtn}>✕</button>
+              <button onClick={() => setNgoModalOpen(false)} className={styles.closeModalBtn} aria-label="Fechar modal">
+                <X size={18} />
+              </button>
             </div>
             
             <form onSubmit={handleNgoFormSubmit} className={styles.modalForm}>
@@ -896,7 +900,9 @@ export default function Admin() {
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalHeader}>
               <h3>{selectedProd ? 'Editar Produto' : 'Cadastrar Novo Produto'}</h3>
-              <button onClick={() => setProdModalOpen(false)} className={styles.closeModalBtn}>✕</button>
+              <button onClick={() => setProdModalOpen(false)} className={styles.closeModalBtn} aria-label="Fechar modal">
+                <X size={18} />
+              </button>
             </div>
             
             <form onSubmit={handleProdFormSubmit} className={styles.modalForm}>

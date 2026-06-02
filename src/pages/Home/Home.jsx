@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
 import NgoCard from '../../components/NgoCard/NgoCard';
 import StarRating from '../../components/StarRating/StarRating';
-import { Heart, Users, ShoppingBag, Target, ArrowLeft, ArrowRight, ShieldCheck, Award } from 'lucide-react';
+import { Heart, Users, ShoppingBag, Target, ArrowLeft, ArrowRight, Award, Eye, Handshake, Sprout } from 'lucide-react';
 import { formatCurrency } from '../../utils/helpers';
 import { dbReports } from '../../services/db';
 import styles from './Home.module.css';
@@ -228,19 +228,19 @@ export default function Home() {
 
             <div className={styles.pillarsGrid}>
               <div className={styles.pillar}>
-                <div className={styles.pillarIcon}>🎯 Missão</div>
+                <div className={styles.pillarIcon}><Target size={18} /> Missão</div>
                 <p>Conectar lojistas conscientes, consumidores engajados e causas sociais legítimas em uma única rede de impacto transparente.</p>
               </div>
               <div className={styles.pillar}>
-                <div className={styles.pillarIcon}>👁️ Visão</div>
+                <div className={styles.pillarIcon}><Eye size={18} /> Visão</div>
                 <p>Tornar-se a principal plataforma de marketplace solidário do país, inspirando marcas e pessoas a consumirem com propósito de vida.</p>
               </div>
               <div className={styles.pillar}>
-                <div className={styles.pillarIcon}>🤝 Valores</div>
+                <div className={styles.pillarIcon}><Handshake size={18} /> Valores</div>
                 <p>Transparência total, responsabilidade social, empatia animal, preservação ambiental e integridade profissional em cada atitude.</p>
               </div>
               <div className={styles.pillar}>
-                <div className={styles.pillarIcon}>🌱 Impacto</div>
+                <div className={styles.pillarIcon}><Sprout size={18} /> Impacto</div>
                 <p>Garantir que cada centavo destinado às ONGs parceiras seja monitorado e devidamente auditado, fortalecendo a confiança dos doadores.</p>
               </div>
             </div>
