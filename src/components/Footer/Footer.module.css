@@ -1,0 +1,222 @@
+.footer {
+  background-color: #081529;
+  color: var(--white);
+  padding-top: 60px;
+  margin-top: auto;
+  border-top: 4px solid #3f98ad;
+  flex-shrink: 0;
+}
+
+.mainFooter {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 40px;
+  padding-bottom: 40px;
+}
+
+/* Coluna da Marca */
+.brandCol {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.logoText {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--turquoise-green);
+  letter-spacing: -0.5px;
+}
+
+.brandDesc {
+  font-size: 0.88rem;
+  color: var(--muted-gray);
+  line-height: 1.6;
+}
+
+/* Caixa do Contador de Transparência */
+.liveCounter {
+  background-color: rgba(48, 125, 139, 0.14);
+  border: 1px solid rgba(48, 125, 139, 0.35);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-top: 10px;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: pulse-soft 3s infinite ease-in-out;
+  max-width: 320px;
+}
+
+.counterHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--turquoise-green);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.heartIcon {
+  color: var(--turquoise-green);
+}
+
+.counterValue {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--turquoise-green);
+  letter-spacing: -0.5px;
+}
+
+.counterLabel {
+  font-size: 0.75rem;
+  color: var(--turquoise-green);
+  font-weight: 600;
+}
+
+/* Colunas de Links */
+.colTitle {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--turquoise-green);
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.colTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 30px;
+  height: 2.5px;
+  background-color: var(--turquoise-green);
+  border-radius: var(--radius-full);
+}
+
+.linksList,
+.contactList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footerLink {
+  font-size: 0.88rem;
+  color: var(--muted-gray);
+  transition: var(--transition-fast);
+}
+
+.footerLink:hover {
+  color: var(--turquoise-green);
+  transform: translateX(4px);
+  display: inline-block;
+}
+
+/* Contatos e Redes Sociais */
+.contactList li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+  color: var(--muted-gray);
+}
+
+.contactList li svg,
+.wpIcon {
+  color: var(--muted-gray);
+}
+
+.contactList a:hover {
+  color: var(--turquoise-green);
+}
+
+.wpIcon {
+  font-size: 0.9rem;
+}
+
+.socialWrapper {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.socialBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--turquoise-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+.socialBtn:hover {
+  background-color: var(--turquoise-green);
+  transform: scale(1.1);
+}
+
+/* Rodapé Inferior */
+.bottomFooter {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 20px 0;
+  margin-top: 40px;
+  font-size: 0.8rem;
+  color: var(--muted-gray);
+}
+
+.bottomContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.scrollTopBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #cbd5e1;
+  font-size: 0.8rem;
+  font-weight: 700;
+  transition: var(--transition-fast);
+}
+
+.scrollTopBtn:hover {
+  color: var(--turquoise-green);
+}
+
+/* BREAKPOINTS RESPONSIVAS */
+@media (max-width: 1024px) {
+  .mainFooter {
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 30px;
+  }
+  .contactCol {
+    grid-column: span 3;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainFooter {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .contactCol {
+    grid-column: span 1;
+  }
+  .bottomContainer {
+    flex-direction: column;
+    text-align: center;
+  }
+}

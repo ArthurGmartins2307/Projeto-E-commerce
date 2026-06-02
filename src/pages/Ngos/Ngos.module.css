@@ -1,0 +1,153 @@
+.pageContainer {
+  padding-top: 110px;
+  padding-bottom: 60px;
+  min-height: 80svh;
+  text-align: left;
+}
+
+.header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 24px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.sub {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--turquoise-green);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.title {
+  font-size: 1.85rem;
+  font-weight: 850;
+  color: var(--petroleum-blue);
+  line-height: 1.15;
+}
+
+.desc {
+  font-size: 0.95rem;
+  color: var(--text-gray);
+  line-height: 1.6;
+  max-width: 800px;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  padding: 4px 16px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--shadow-sm);
+  margin-top: 10px;
+  transition: var(--transition-fast);
+}
+
+.searchBar:focus-within {
+  border-color: var(--turquoise-green);
+  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.12);
+}
+
+.searchIcon {
+  color: var(--muted-gray);
+  margin-right: 10px;
+}
+
+.searchInput {
+  border: none;
+  font-size: 0.85rem;
+  width: 100%;
+  padding: 6px 0;
+}
+
+/* Pílulas de Filtro */
+.filterPills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+.pillBtn {
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  font-weight: 750;
+  color: var(--petroleum-blue);
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  transition: var(--transition-fast);
+}
+
+.pillBtn:hover {
+  background-color: var(--light-gray);
+  border-color: var(--petroleum-blue);
+}
+
+.pillActive {
+  background-color: var(--turquoise-green) !important;
+  color: var(--white) !important;
+  border-color: var(--turquoise-green) !important;
+  box-shadow: 0 3px 8px rgba(42, 157, 143, 0.25);
+}
+
+/* Grid de ONGs */
+.ngosGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.gridItem {
+  height: 100%;
+}
+
+.noResults {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  width: 100%;
+}
+
+.noResults h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--petroleum-blue);
+  margin-bottom: 8px;
+}
+
+.noResults p {
+  font-size: 0.85rem;
+  color: var(--muted-gray);
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 1024px) {
+  .ngosGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .ngosGrid {
+    grid-template-columns: 1fr;
+  }
+  .filterPills {
+    width: 100%;
+  }
+  .pillBtn {
+    flex-grow: 1;
+    text-align: center;
+  }
+}

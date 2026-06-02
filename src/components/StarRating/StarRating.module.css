@@ -1,0 +1,34 @@
+.starContainer {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.starButton {
+  padding: 2px;
+  display: inline-flex;
+  transition: var(--transition-fast);
+}
+
+.editable .starButton:hover {
+  transform: scale(1.2);
+}
+
+.starIcon {
+  stroke-width: 2px;
+  transition: transform 0.15s ease, fill 0.15s ease, stroke 0.15s ease;
+}
+
+.filled {
+  fill: var(--yellow);
+  stroke: var(--yellow);
+}
+
+.empty {
+  fill: transparent;
+  stroke: #cbd5e1;
+}
+
+.editable .starButton:hover .starIcon {
+  stroke: var(--yellow);
+}

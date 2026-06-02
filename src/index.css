@@ -1,0 +1,200 @@
+/* SISTEMA DE ESTILOS GLOBAIS - PLATAFORMA CONSOLIDAR */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap');
+
+:root {
+  /* Paleta de Cores Oficial */
+  --petroleum-blue: #1e4258;
+  --turquoise-green: #307d8b;
+  --yellow: #f0c048;
+  --light-orange: #f09c52;
+  --orange-red: #e76d53;
+  --white: #FFFFFF;
+  --light-gray: #f6f9fc;
+  --text-gray: #374151;
+  
+  /* Cores de Suporte e Estados */
+  --dark-blue: #122337;
+  --muted-gray: #6b7280;
+  --border-color: #e8eef5;
+  --success: #36b78d;
+  --error: #e96c51;
+  --warning: #f0c048;
+  --info: #f29c52;
+
+  /* Paleta de superfícies */
+  --bg: var(--light-gray);
+  --surface: var(--white);
+  --header-bg: rgba(255, 255, 255, 0.94);
+
+  /* Fontes e Tipografia */
+  --font-family: 'Nunito', sans-serif;
+
+  /* Design Tokens */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+  
+  --shadow-sm: 0 2px 8px rgba(38, 70, 83, 0.05);
+  --shadow-md: 0 10px 25px rgba(38, 70, 83, 0.08);
+  --shadow-lg: 0 20px 45px rgba(38, 70, 83, 0.12);
+  
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: all 0.15s ease;
+}
+
+.dark-mode {
+  --petroleum-blue: #7cc0af;
+  --turquoise-green: #5da9b4;
+  --yellow: #facc15;
+  --light-orange: #f59e0b;
+  --orange-red: #fb7185;
+  --white: #12223e;
+  --light-gray: #172940;
+  --text-gray: #e5edf8;
+  --dark-blue: #0b1523;
+  --muted-gray: #94a3b8;
+  --border-color: rgba(148,163,184,0.15);
+  --success: #3ebf94;
+  --error: #fb7f77;
+  --warning: #f6d865;
+  --info: #f4a766;
+  --bg: #081228;
+  --surface: #111f3a;
+  --header-bg: rgba(8, 18, 40, 0.96);
+}
+
+/* Reset Geral */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  background-color: var(--bg);
+  color: var(--text-gray);
+  min-height: 100svh;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition-fast);
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Acessibilidade - Visibilidade de Foco (Teclado) */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--turquoise-green);
+  outline-offset: 2px;
+}
+
+/* Scrollbar Personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--light-gray);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Layouts e Grids Utilitários */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--petroleum-blue), var(--turquoise-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Micro-animações globais */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes pulse-soft {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Tags de Categorias com cores representativas */
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Badge de Categorias de ONGs */
+.cat-animal { background-color: rgba(231, 111, 81, 0.12); color: var(--orange-red); }
+.cat-social { background-color: rgba(244, 162, 97, 0.12); color: var(--light-orange); }
+.cat-education { background-color: rgba(233, 196, 106, 0.12); color: #d4a317; }
+.cat-health { background-color: rgba(42, 157, 143, 0.12); color: var(--turquoise-green); }
+.cat-environment { background-color: rgba(38, 70, 83, 0.12); color: var(--petroleum-blue); }
+.cat-culture { background-color: rgba(170, 59, 255, 0.1); color: #aa3bff; }
+
+/* Badge de Categorias de Produtos */
+.cat-prod-domestic { background-color: #eaeaea; color: #495057; }
+.cat-prod-clothing { background-color: #d1ecf1; color: #0c5460; }
+.cat-prod-beauty { background-color: #f8d7da; color: #721c24; }
+.cat-prod-cleaning { background-color: #d4edda; color: #155724; }
+.cat-prod-electronics { background-color: #fff3cd; color: #856404; }
+.cat-prod-kids { background-color: #e2d9f3; color: #383d41; }
+.cat-prod-pets { background-color: #ffe8d6; color: #a0522d; }
