@@ -8,7 +8,7 @@ import {
   dbOrders,
   dbReports
 } from '../../services/db';
-import { formatCurrency, mapNgoCategory, mapProductCategory } from '../../utils/helpers';
+import { formatCurrency, mapNgoCategory, mapNgoCategoryClass, mapProductCategory } from '../../utils/helpers';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -26,7 +26,7 @@ import {
   LayoutDashboard,
   HeartHandshake,
   ShoppingBag,
-  MessageSquareStar,
+  MessageSquareText,
   Plus,
   Edit2,
   Trash2,
@@ -422,7 +422,7 @@ export default function Admin() {
             onClick={() => setActiveTab('avaliacoes')}
             className={`${styles.tabBtn} ${activeTab === 'avaliacoes' ? styles.tabActive : ''}`}
           >
-            <MessageSquareStar size={16} />
+            <MessageSquareText size={16} />
             Gerenciar Avaliações
           </button>
         </div>
