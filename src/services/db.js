@@ -70,6 +70,39 @@ initializeMockDb();
 const getMockData = (key) => JSON.parse(localStorage.getItem(key)) || [];
 const setMockData = (key, data) => localStorage.setItem(key, JSON.stringify(data));
 
+const formatSupabaseAuthError = (error) => {
+  console.error('Erro de autenticação do Supabase:', {
+    status: error.status,
+    code: error.code,
+    message: error.message
+  });
+
+  if (error.status === 429) {
+    return new Error('Limite de cadastros/e-mails do Supabase atingido. Aguarde alguns minutos ou tente novamente mais tarde.');
+  }
+
+  const message = (error.message || '').toLowerCase();
+  const code = error.code || '';
+
+  if (code === 'email_exists' || message.includes('already registered') || message.includes('already exists')) {
+    return new Error('Este e-mail já está cadastrado. Tente fazer login ou use outro e-mail.');
+  }
+
+  if (code === 'email_provider_disabled' || code === 'signup_disabled' || message.includes('signups are disabled')) {
+    return new Error('Cadastro por e-mail está desativado no Supabase. Ative em Authentication > Providers > Email.');
+  }
+
+  if (code === 'email_address_invalid' || message.includes('invalid email')) {
+    return new Error('E-mail inválido para o Supabase. Use um e-mail real, não domínio de exemplo/teste.');
+  }
+
+  if (message.includes('password')) {
+    return new Error('Senha inválida para as regras do Supabase. Use uma senha mais forte e tente novamente.');
+  }
+
+  return new Error(error.message || 'Erro ao autenticar no Supabase.');
+};
+
 // ============================================
 // 1. SISTEMA DE AUTENTICAÇÃO E USUÁRIOS
 // ============================================
@@ -106,7 +139,9 @@ export const dbAuth = {
   async register(name, email, password, profileImage = '', userType = 'customer') {
     if (isSupabaseConfigured) {
       const { data, error } = await supabase.auth.signUp({ email, password });
-      if (error) throw error;
+      if (error) {
+        throw formatSupabaseAuthError(error);
+      }
       
       // Cria registro na tabela users correspondente
       const { data: profile, error: pError } = await supabase
